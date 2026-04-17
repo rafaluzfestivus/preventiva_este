@@ -25,15 +25,15 @@
 ## 3. TODOs antes de publicar
 
 ### Obrigatório:
-- [ ] Fazer upload do **logo** adaptado como `/public/logo-preventiva-este.png`
-- [ ] Copiar imagens do preventivasur: `gallery-1.jpg` até `gallery-6.jpg`, `hero-new.jpg`, `img-1.jpg` até `img-6.jpg`, vídeo `.mp4`
-- [ ] Configurar **Supabase** separado e atualizar `src/lib/supabase.ts`
+- [ ] Fazer upload do **logo** adaptado como `/public/logo-preventiva-este.png` *(atualmente usa placeholder do preventivasur)*
+- [x] Copiar imagens do preventivasur: `gallery-1.jpg` até `gallery-6.jpg`, `hero-new.jpg`, `img-1.jpg` até `img-6.jpg`, vídeo `.mp4`
+- [ ] Configurar **Supabase** separado e criar `.env.local` com as credenciais (ver `.env.example`)
 - [ ] Criar conta em **web3forms.com** para `contacto@preventivaeste.com` e atualizar `access_key` em `ContactSection.tsx`
 - [ ] Criar **Google Tag Manager** e substituir `GTM-PLACEHOLDER` em `layout.tsx`
-- [ ] Configurar **Google Sheets** script e atualizar URL em `ContactSection.tsx`
+- [ ] Configurar **Google Sheets** script e atualizar `YOUR_GOOGLE_SHEETS_SCRIPT_URL` em `ContactSection.tsx`
 
 ### Opcional:
-- [ ] Adicionar Instagram próprio da Preventiva Este no `Footer.tsx` e `Gallery.tsx`
+- [x] Adicionar Instagram próprio da Preventiva Este no `Footer.tsx` e `Gallery.tsx` *(links apuntam a @preventivaeste)*
 - [ ] Adicionar token de verificação do Google Search Console em `layout.tsx`
 
 ---
