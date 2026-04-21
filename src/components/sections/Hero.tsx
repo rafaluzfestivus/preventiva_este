@@ -18,7 +18,7 @@ export function Hero() {
                     className="w-full h-full object-cover"
                     poster="/hero-new.jpg"
                 >
-                    <source src="/Create_a_subtle_202602091927_j7f3p.mp4" type="video/mp4" />
+                    <source src="/grok-video-75d457db-6ffe-4a84-8c5e-689da5f46f68.mp4" type="video/mp4" />
                 </video>
             </div>
 
