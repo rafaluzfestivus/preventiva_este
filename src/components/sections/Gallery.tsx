@@ -47,7 +47,7 @@ export function Gallery() {
                 </div>
 
                 <div className="text-center mt-12">
-                    <a href="https://www.instagram.com/preventivacentro/" target="_blank" rel="noopener noreferrer" className="text-yellow-600 font-semibold hover:underline">
+                    <a href="https://www.instagram.com/preventivaeste/" target="_blank" rel="noopener noreferrer" className="text-yellow-600 font-semibold hover:underline">
                         Ver más en Instagram &rarr;
                     </a>
                 </div>
