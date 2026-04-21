@@ -1,0 +1,19 @@
+name: Supabase Migration
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run migrations
+        run: |
+          psql "${{ secrets.SUPABASE_DB_URL }}" -f supabase/migrations/001_create_clients.sql
