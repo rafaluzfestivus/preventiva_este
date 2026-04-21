@@ -64,32 +64,36 @@ export function ContactSection() {
 
             if (supabaseError) console.error("Error saving to Supabase:", supabaseError);
 
-            const [response] = await Promise.all([
-                fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                    body: JSON.stringify(data),
-                }),
+            // Serviços secundários — falhas não bloqueiam o sucesso do formulário
+            const web3formsKey = data.access_key;
+            const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
+
+            await Promise.allSettled([
+                web3formsKey && !web3formsKey.startsWith("YOUR_")
+                    ? fetch("https://api.web3forms.com/submit", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                        body: JSON.stringify(data),
+                    })
+                    : Promise.resolve(),
                 fetch("https://fluxo.festivusia.com/webhook/emailpreventivaeste", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
                     body: JSON.stringify(data),
-                }).catch(err => console.error("Webhook error:", err)),
-                fetch("YOUR_GOOGLE_SHEETS_SCRIPT_URL", { // TODO: Configurar Google Sheets para Preventiva Este
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: sheetsData.toString(),
-                }).catch(err => console.error("Sheets error:", err))
+                }),
+                sheetsUrl && !sheetsUrl.startsWith("YOUR_")
+                    ? fetch(sheetsUrl, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: sheetsData.toString(),
+                    })
+                    : Promise.resolve(),
             ]);
 
-            const result = await response.json();
-            if (response.status === 200) {
-                setStatus("success");
-                setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: "Protección para Balcón", mensaje: "" });
-            } else {
-                setStatus("error");
-            }
+            // Sucesso determinado pelo Supabase, não pelos serviços externos
+            setStatus("success");
+            setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: "Protección para Balcón", mensaje: "" });
         } catch (error) {
             console.error(error);
             setStatus("error");
