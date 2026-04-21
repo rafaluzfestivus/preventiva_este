@@ -29,7 +29,7 @@ export function ContactSection() {
         const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
 
         const data = {
-            access_key: "YOUR_WEB3FORMS_ACCESS_KEY", // TODO: Criar conta em web3forms.com para contacto@preventivaeste.com
+            access_key: "dad08198-4366-413c-8549-d3f46bd328bb",
             Nombre: formData.nombre,
             Teléfono: formData.telefono,
             Email: formData.email,
@@ -64,18 +64,14 @@ export function ContactSection() {
 
             if (supabaseError) console.error("Error saving to Supabase:", supabaseError);
 
-            // Serviços secundários — falhas não bloqueiam o sucesso do formulário
-            const web3formsKey = data.access_key;
             const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
 
             await Promise.allSettled([
-                web3formsKey && !web3formsKey.startsWith("YOUR_")
-                    ? fetch("https://api.web3forms.com/submit", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                        body: JSON.stringify(data),
-                    })
-                    : Promise.resolve(),
+                fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify(data),
+                }),
                 fetch("https://fluxo.festivusia.com/webhook/emailpreventivaeste", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -91,7 +87,6 @@ export function ContactSection() {
                     : Promise.resolve(),
             ]);
 
-            // Sucesso determinado pelo Supabase, não pelos serviços externos
             setStatus("success");
             setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: "Protección para Balcón", mensaje: "" });
         } catch (error) {
