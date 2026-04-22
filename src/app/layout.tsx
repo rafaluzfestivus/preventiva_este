@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Instalación de Redes de Protección en Barcelona | Preventiva Este",
   description: "Especialistas en instalación de redes de protección para balcones, ventanas y terrazas en Barcelona y alrededores. Resistencia de 150kg/m² y 3 años de garantía.",
-  keywords: ["redes de protección barcelona", "mallas de seguridad barcelona", "redes para balcones barcelona", "redes para gatos barcelona", "seguridad infantil ventanas barcelona", "instalación redes barcelona", "mallas anticaídas", "protección terrazas barcelona", "Preventiva Este", "precio redes protección", "presupuesto mallas seguridad", "instaladores redes barcelona"],
+  keywords: ["redes de protección barcelona", "mallas de seguridad barcelona", "redes para balcones barcelona", "redes para gatos barcelona", "seguridad infantil ventanas barcelona", "instalación redes barcelona", "mallas antiacaídas", "protección terrazas barcelona", "Preventiva Este", "precio redes protección", "presupuesto mallas seguridad", "instaladores redes barcelona"],
   authors: [{ name: "Preventiva Este", url: "https://preventivaeste.com" }],
   creator: "Preventiva Este",
   publisher: "Preventiva Este",
@@ -105,34 +105,22 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <head>
-        {/* Google tag (gtag.js) - TODO: Substituir GTM-PLACEHOLDER pelo ID real */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-PLACEHOLDER"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'GTM-PLACEHOLDER');
-            `,
-          }}
-        />
-
-        {/* Google Tag Manager - TODO: Substituir GTM-PLACEHOLDER pelo ID real */}
+        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-PLACEHOLDER');`,
+})(window,document,'script','dataLayer','GTM-N5BW7JW9');`,
           }}
         />
       </head>
       <body className={`${inter.className} antialiased bg-gray-50 flex flex-col min-h-screen`}>
+        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-PLACEHOLDER"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-N5BW7JW9"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
