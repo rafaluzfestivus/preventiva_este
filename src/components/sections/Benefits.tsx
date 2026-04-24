@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 
 export function Benefits() {
     const benefits = [
-        "Resistencia Certificada: Soportan hasta 150kg/m\u00b2.",
+        "Resistencia Certificada: Soportan hasta 150kg/m².",
         "Tratamiento Anti-UV: Larga durabilidad expuestas al sol.",
         "Máxima Estética: No alteran la fachada ni las vistas.",
         "Material Ignífugo y No Tóxico.",
         "Instalación sin Obras molestas.",
-        "Garantía de 2 años en materiales e instalación.",
+        "Garantía de 3 años en materiales e instalación.",
         "Servicio a nivel nacional.",
     ];
 
@@ -49,6 +49,12 @@ export function Benefits() {
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{
+                                opacity: { duration: 0.5, delay: 0.6 },
+                                x: { duration: 0.5, delay: 0.6 },
+                                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                            }}
                             className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl max-w-xs hidden md:block"
                         >
                             <p className="font-bold text-slate-900 text-lg mb-1">&ldquo;El mejor servicio&rdquo;</p>
