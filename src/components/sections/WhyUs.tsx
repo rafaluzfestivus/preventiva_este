@@ -12,8 +12,8 @@ export function WhyUs() {
         },
         {
             icon: <Sparkles className="w-8 h-8 text-yellow-500" />,
-            title: "Instalación Limpia",
-            description: "La limpieza de su casa es nuestro compromiso. Su casa quedará impecable.",
+            title: "10 Años en el Mercado",
+            description: "Más de una década de experiencia instalando redes de protección en toda la Península Ibérica.",
         },
         {
             icon: <Clock className="w-8 h-8 text-yellow-500" />,
@@ -23,7 +23,7 @@ export function WhyUs() {
         {
             icon: <FileCheck2 className="w-8 h-8 text-yellow-500" />,
             title: "Certificación Técnica",
-            description: "Solo utilizamos polietileno virgen, testado para soportar 150kg/m\u00b2.",
+            description: "Solo utilizamos polietileno virgen, testado para soportar 150kg/m².",
         }
     ];
 

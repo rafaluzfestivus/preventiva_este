@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Instalación de Redes de Protección en Barcelona | Preventiva Este",
   description: "Especialistas en instalación de redes de protección para balcones, ventanas y terrazas en Barcelona y alrededores. Resistencia de 150kg/m² y 3 años de garantía.",
-  keywords: ["redes de protección barcelona", "mallas de seguridad barcelona", "redes para balcones barcelona", "redes para gatos barcelona", "seguridad infantil ventanas barcelona", "instalación redes barcelona", "mallas antiacaídas", "protección terrazas barcelona", "Preventiva Este", "precio redes protección", "presupuesto mallas seguridad", "instaladores redes barcelona"],
+  keywords: ["redes de protección barcelona", "mallas de seguridad barcelona", "redes para balcones barcelona", "redes para gatos barcelona", "seguridad infantil ventanas barcelona", "instalación redes barcelona", "mallas anticaídas", "protección terrazas barcelona", "Preventiva Este", "precio redes protección", "presupuesto mallas seguridad", "instaladores redes barcelona"],
   authors: [{ name: "Preventiva Este", url: "https://preventivaeste.com" }],
   creator: "Preventiva Este",
   publisher: "Preventiva Este",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "Preventiva Este",
     images: [
       {
-        url: "/logo-preventiva-este.png",
+        url: "https://preventivaeste.com/logo-preventiva-este.png",
         width: 800,
         height: 600,
         alt: "Logo Preventiva Este",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Preventiva Este | Redes de Protección en Barcelona",
     description: "Instalación profesional de redes de protección y mallas de seguridad en Barcelona.",
-    images: ["/logo-preventiva-este.png"],
+    images: ["https://preventivaeste.com/logo-preventiva-este.png"],
   },
   alternates: {
     canonical: "https://preventivaeste.com",
@@ -60,9 +60,6 @@ export const metadata: Metadata = {
     icon: "/logo-preventiva-este.png",
     shortcut: "/logo-preventiva-este.png",
     apple: "/logo-preventiva-este.png",
-  },
-  verification: {
-    google: "verification_token",
   },
 };
 
@@ -88,15 +85,10 @@ export default function RootLayout({
     "email": "contacto@preventivaeste.com",
     "priceRange": "$$",
     "areaServed": ["Barcelona", "L'Hospitalet de Llobregat", "Badalona", "Sabadell", "Terrassa", "Sant Cugat del Vallès", "Área Metropolitana de Barcelona"],
+    "sameAs": ["https://www.instagram.com/preventivaeste/"],
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "opens": "09:00",
       "closes": "20:00"
     }
@@ -105,7 +97,6 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <head>
-        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -117,7 +108,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </head>
       <body className={`${inter.className} antialiased bg-gray-50 flex flex-col min-h-screen`}>
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-N5BW7JW9"

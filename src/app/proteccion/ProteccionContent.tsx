@@ -133,7 +133,7 @@ export default function ProteccionContent() {
                                 className="bg-[#4d2a36] text-white px-8 py-4 rounded-full font-bold inline-flex items-center gap-3 hover:bg-slate-800 transition-all"
                             >
                                 <Phone className="w-5 h-5" />
-                                Solicita visita técnica gratuita
+                                Pedir presupuesto ahora
                             </Link>
                         </div>
                         <div className="lg:w-1/2">
