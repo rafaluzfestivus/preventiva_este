@@ -1,8 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { SiteDict } from "@/dictionaries/types";
 
-export function AboutUs() {
+interface AboutUsProps {
+    dict?: SiteDict["aboutUs"];
+}
+
+const defaultDict: SiteDict["aboutUs"] = {
+    tag: "Nuestra Historia",
+    title: "Sobre",
+    titleHighlight: "Nosotros",
+    p1: "Después de Preventiva Norte (Norte de Portugal y Galicia), Preventiva Sur (Andalucía) y Preventiva Centro (Madrid), ha llegado Preventiva Este para cubrir las necesidades del Área Metropolitana de Barcelona y Cataluña.",
+    p2: "Preventiva Norte Redes de Protección, que actualmente es la principal empresa en el Norte de Portugal de instalación y venta de kits de redes de protección, fue creada para cubrir las necesidades de personas que conviven con riesgos de accidentes en el hogar, sobretodo de niños y mascotas, por el peligro de caídas a través de las ventanas, balcones, terrazas, escaleras y aperturas.",
+    p3: "Además de impedir la entrada de aves indeseables que imposibilitan el uso principalmente de terrazas y balcones.",
+};
+
+export function AboutUs({ dict = defaultDict }: AboutUsProps) {
     return (
         <section id="sobre-nosotros" className="py-24 bg-white">
             <div className="container mx-auto px-4 md:px-8">
@@ -15,23 +29,19 @@ export function AboutUs() {
                         className="text-center mb-16"
                     >
                         <span className="text-yellow-500 font-bold tracking-wider text-sm uppercase mb-3 block">
-                            Nuestra Historia
+                            {dict.tag}
                         </span>
                         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">
-                            Sobre <span className="text-yellow-500">Nosotros</span>
+                            {dict.title} <span className="text-yellow-500">{dict.titleHighlight}</span>
                         </h2>
                     </motion.div>
 
                     <div className="prose prose-lg max-w-none text-slate-600 leading-relaxed space-y-6">
                         <p className="text-xl font-medium text-slate-800">
-                            Después de Preventiva Norte (Norte de Portugal y Galicia), Preventiva Sur (Andalucía) y Preventiva Centro (Madrid), ha llegado Preventiva Este para cubrir las necesidades del Área Metropolitana de Barcelona y Cataluña.
+                            {dict.p1}
                         </p>
-                        <p>
-                            Preventiva Norte Redes de Protección, que actualmente es la principal empresa en el Norte de Portugal de instalación y venta de kits de redes de protección, fue creada para cubrir las necesidades de personas que conviven con riesgos de accidentes en el hogar, sobretodo de niños y mascotas, por el peligro de caídas a través de las ventanas, balcones, terrazas, escaleras y aperturas.
-                        </p>
-                        <p>
-                            Además de impedir la entrada de aves indeseables que imposibilitan el uso principalmente de terrazas y balcones.
-                        </p>
+                        <p>{dict.p2}</p>
+                        <p>{dict.p3}</p>
                     </div>
 
                     <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
