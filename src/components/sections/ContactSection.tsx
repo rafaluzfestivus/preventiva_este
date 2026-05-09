@@ -5,6 +5,10 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import type { SiteDict } from "@/dictionaries/types";
 
+const ADS_ID = 'AW-18111431326';
+// Replace CONVERSION_LABEL with the label from Google Ads > Conversions dashboard
+const ADS_CONVERSION = `${ADS_ID}/CONVERSION_LABEL`;
+
 interface ContactSectionProps {
     dict?: SiteDict["contact"];
 }
@@ -47,12 +51,22 @@ const defaultDict: SiteDict["contact"] = {
 };
 
 function fireConversionTracking() {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'conversion', {
+            'send_to': ADS_CONVERSION,
+            'value': 1.0,
+            'currency': 'EUR',
+        });
+    }
     if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
         (window as any).dataLayer.push({ 'event': 'generate_lead', 'form_name': 'contact_form' });
     }
 }
 
 function trackPhoneClick(number: string) {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'phone_click', { 'event_category': 'contact', 'phone_number': number });
+    }
     if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
         (window as any).dataLayer.push({ 'event': 'phone_click', 'phone_number': number });
     }

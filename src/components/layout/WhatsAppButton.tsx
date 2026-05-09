@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 function trackWhatsAppClick() {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'whatsapp_click', { 'event_category': 'contact' });
+    }
     if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
         (window as any).dataLayer.push({ 'event': 'whatsapp_click' });
     }

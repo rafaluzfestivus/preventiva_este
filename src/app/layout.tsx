@@ -177,6 +177,21 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+        {/* Google Ads tag — must initialize dataLayer before GTM */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18111431326"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18111431326');
+            `,
+          }}
+        />
+
+        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -186,6 +201,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-N5BW7JW9');`,
           }}
         />
+
         {/* hreflang global */}
         <link rel="alternate" hrefLang="es" href="https://preventivaeste.com" />
         <link rel="alternate" hrefLang="ca" href="https://preventivaeste.com/ca" />
