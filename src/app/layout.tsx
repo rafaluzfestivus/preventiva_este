@@ -44,6 +44,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://preventivaeste.com",
+    languages: {
+      "es": "https://preventivaeste.com",
+      "ca": "https://preventivaeste.com/ca",
+    },
   },
   robots: {
     index: true,
@@ -106,6 +110,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-N5BW7JW9');`,
           }}
         />
+        {/* hreflang global */}
+        <link rel="alternate" hrefLang="es" href="https://preventivaeste.com" />
+        <link rel="alternate" hrefLang="ca" href="https://preventivaeste.com/ca" />
+        <link rel="alternate" hrefLang="x-default" href="https://preventivaeste.com" />
       </head>
       <body className={`${inter.className} antialiased bg-gray-50 flex flex-col min-h-screen`}>
         <noscript>

@@ -1,6 +1,17 @@
 import { Star } from "lucide-react";
+import type { SiteDict } from "@/dictionaries/types";
 
-export function TrustBar() {
+interface TrustBarProps {
+    dict?: SiteDict["trustBar"];
+}
+
+const defaultDict: SiteDict["trustBar"] = {
+    certified: "CE Certificado",
+    guarantee: "Garantía",
+    guaranteeHighlight: "Total",
+};
+
+export function TrustBar({ dict = defaultDict }: TrustBarProps) {
     return (
         <section className="bg-white border-b border-gray-100 py-10">
             <div className="container mx-auto px-4 md:px-8">
@@ -12,10 +23,10 @@ export function TrustBar() {
                         Google <span className="text-xs font-normal">Reviews 4.9/5</span>
                     </div>
                     <div className="font-bold text-xl text-gray-700">
-                        CE Certificado
+                        {dict.certified}
                     </div>
                     <div className="font-bold text-xl text-gray-700">
-                        Garantía<span className="text-yellow-500">Total</span>
+                        {dict.guarantee}<span className="text-yellow-500">{dict.guaranteeHighlight}</span>
                     </div>
                 </div>
             </div>
