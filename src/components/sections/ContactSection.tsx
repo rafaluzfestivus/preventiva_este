@@ -5,6 +5,10 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import type { SiteDict } from "@/dictionaries/types";
 
+const ADS_ID = 'AW-18111431326';
+// Replace CONVERSION_LABEL with the label from Google Ads > Conversions dashboard
+const ADS_CONVERSION = `${ADS_ID}/CONVERSION_LABEL`;
+
 interface ContactSectionProps {
     dict?: SiteDict["contact"];
 }
@@ -29,7 +33,7 @@ const defaultDict: SiteDict["contact"] = {
     formMessage: "Mensaje",
     formNamePlaceholder: "Tu nombre",
     formMessagePlaceholder: "Cuéntanos más sobre lo que necesitas...",
-    formSubmit: "Enviar Solicitud",
+    formSubmit: "Solicitar Presupuesto GRATIS",
     formSending: "Enviando...",
     formSuccessTitle: "¡Mensaje Enviado!",
     formSuccessDesc: "Gracias por contactarnos. Te responderemos lo antes posible.",
@@ -45,6 +49,28 @@ const defaultDict: SiteDict["contact"] = {
     ],
     subject: "Nuevo mensaje desde Preventiva Este",
 };
+
+function fireConversionTracking() {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'conversion', {
+            'send_to': ADS_CONVERSION,
+            'value': 1.0,
+            'currency': 'EUR',
+        });
+    }
+    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
+        (window as any).dataLayer.push({ 'event': 'generate_lead', 'form_name': 'contact_form' });
+    }
+}
+
+function trackPhoneClick(number: string) {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'phone_click', { 'event_category': 'contact', 'phone_number': number });
+    }
+    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
+        (window as any).dataLayer.push({ 'event': 'phone_click', 'phone_number': number });
+    }
+}
 
 export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
     const [formData, setFormData] = useState({
@@ -108,6 +134,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
 
             const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
 
+            const [response] = await Promise.allSettled([
             const chatwootPromise = (async () => {
                 const BASE = "https://chat.preventivacentro.es";
                 const ACCOUNT = 2;
@@ -164,11 +191,17 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                         body: sheetsData.toString(),
                     })
                     : Promise.resolve(),
+            ]) as [PromiseSettledResult<Response>, ...unknown[]];
                 chatwootPromise,
             ]);
 
-            setStatus("success");
-            setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });
+            if (response.status === 'fulfilled' && response.value.ok) {
+                fireConversionTracking();
+                setStatus("success");
+                setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });
+            } else {
+                setStatus("error");
+            }
         } catch (error) {
             console.error(error);
             setStatus("error");
@@ -198,7 +231,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                 <div>
                                     <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
                                     <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
-                                    <a href="tel:+34637003793" className="text-slate-300 hover:text-white transition-colors text-lg">
+                                    <a href="tel:+34637003793" onClick={() => trackPhoneClick('+34637003793')} className="text-slate-300 hover:text-white transition-colors text-lg">
                                         Móvil: 637 003 793
                                     </a>
                                 </div>
@@ -291,6 +324,11 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                         </div>
                                     )}
 
+                                    <div className="bg-yellow-50 border border-yellow-100 rounded-lg px-4 py-3 flex items-center gap-3 text-sm text-slate-600">
+                                        <span className="text-yellow-600 font-bold text-base">✓</span>
+                                        <span>Presupuesto gratuito · Sin compromiso · Respuesta en menos de 24h</span>
+                                    </div>
+
                                     <button
                                         type="submit"
                                         disabled={status === "loading"}
@@ -304,7 +342,11 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                     </button>
 
                                     <p className="text-center text-xs text-slate-500 mt-4">
-                                        {dict.formPrivacy}
+                                        Al enviar aceptas nuestra{" "}
+                                        <a href="/politica-privacidad" className="underline hover:text-slate-700">
+                                            política de privacidad
+                                        </a>
+                                        .
                                     </p>
                                 </div>
                             )}
