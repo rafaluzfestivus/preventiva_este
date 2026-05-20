@@ -135,6 +135,44 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
             const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
 
             const [response] = await Promise.allSettled([
+            const chatwootPromise = (async () => {
+                const BASE = "https://chat.preventivacentro.es";
+                const ACCOUNT = 2;
+                const INBOX = 7;
+                const headers = {
+                    "Content-Type": "application/json",
+                    "api_access_token": "JBhhZJ61cgtyjf4RTR9SUoLe",
+                };
+
+                const contactRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/contacts`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({
+                        name: formData.nombre,
+                        email: formData.email,
+                        phone_number: formData.telefono,
+                    }),
+                });
+                const { id: contactId } = await contactRes.json();
+
+                const convRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({ inbox_id: INBOX, contact_id: contactId }),
+                });
+                const { id: convId } = await convRes.json();
+
+                await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations/${convId}/messages`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({
+                        content: `📍 CP: ${formData.codigoPostal} | 🔧 ${formData.servicio}\n\n${formData.mensaje}`,
+                        message_type: "incoming",
+                    }),
+                });
+            })();
+
+            await Promise.allSettled([
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -154,6 +192,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                     })
                     : Promise.resolve(),
             ]) as [PromiseSettledResult<Response>, ...unknown[]];
+                chatwootPromise,
+            ]);
 
             if (response.status === 'fulfilled' && response.value.ok) {
                 fireConversionTracking();
