@@ -2,9 +2,19 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import type { SiteDict } from "@/dictionaries/types";
 
-export function Benefits() {
-    const benefits = [
+interface BenefitsProps {
+    dict?: SiteDict["benefits"];
+}
+
+const defaultDict: SiteDict["benefits"] = {
+    tag: "Por Qué Elegirnos",
+    title1: "Seguridad que no se ve,",
+    title2: "tranquilidad que se siente",
+    description:
+        "Nuestras redes de polietileno de alta tenacidad son la opción preferida por familias y arquitectos. Combinan la máxima seguridad técnica con un impacto visual mínimo.",
+    items: [
         "Resistencia Certificada: Soportan hasta 150kg/m².",
         "Tratamiento Anti-UV: Larga durabilidad expuestas al sol.",
         "Máxima Estética: No alteran la fachada ni las vistas.",
@@ -12,25 +22,29 @@ export function Benefits() {
         "Instalación sin Obras molestas.",
         "Garantía de 3 años en materiales e instalación.",
         "Servicio a nivel nacional.",
-    ];
+    ],
+    quote: "El mejor servicio",
+    quoteDesc: "Instalación rápida y el resultado es impecable. Muy recomendados.",
+};
 
+export function Benefits({ dict = defaultDict }: BenefitsProps) {
     return (
         <section id="beneficios" className="py-20 bg-white">
             <div className="container mx-auto px-4 md:px-8">
                 <div className="flex flex-col lg:flex-row items-center gap-16">
                     <div className="lg:w-1/2">
                         <span className="text-yellow-500 font-bold tracking-wider text-sm uppercase mb-2 block">
-                            Por Qué Elegirnos
+                            {dict.tag}
                         </span>
                         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">
-                            Seguridad que no se ve, <br />
-                            <span className="text-yellow-500">tranquilidad que se siente</span>
+                            {dict.title1} <br />
+                            <span className="text-yellow-500">{dict.title2}</span>
                         </h2>
                         <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                            Nuestras redes de polietileno de alta tenacidad son la opción preferida por familias y arquitectos. Combinan la máxima seguridad técnica con un impacto visual mínimo.
+                            {dict.description}
                         </p>
                         <ul className="space-y-4">
-                            {benefits.map((benefit, index) => (
+                            {dict.items.map((benefit, index) => (
                                 <li key={index} className="flex items-center gap-3">
                                     <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0" />
                                     <span className="text-slate-700 font-medium">{benefit}</span>
@@ -57,8 +71,8 @@ export function Benefits() {
                             }}
                             className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl max-w-xs hidden md:block"
                         >
-                            <p className="font-bold text-slate-900 text-lg mb-1">&ldquo;El mejor servicio&rdquo;</p>
-                            <p className="text-slate-500 text-sm">Instalación rápida y el resultado es impecable. Muy recomendados.</p>
+                            <p className="font-bold text-slate-900 text-lg mb-1">&ldquo;{dict.quote}&rdquo;</p>
+                            <p className="text-slate-500 text-sm">{dict.quoteDesc}</p>
                             <div className="flex text-yellow-400 mt-2">★★★★★</div>
                         </motion.div>
                     </div>

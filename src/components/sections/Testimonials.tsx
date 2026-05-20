@@ -2,9 +2,16 @@
 
 import { Star, Quote } from "lucide-react";
 import { useState } from "react";
+import type { SiteDict } from "@/dictionaries/types";
 
-export function Testimonials() {
-    const testimonials = [
+interface TestimonialsProps {
+    dict?: SiteDict["testimonials"];
+}
+
+const defaultDict: SiteDict["testimonials"] = {
+    title: "Lo que dicen nuestros clientes",
+    verMas: "Ver más",
+    items: [
         {
             name: "Ana García",
             location: "Gràcia, Barcelona",
@@ -30,15 +37,18 @@ export function Testimonials() {
             location: "Sarrià-Sant Gervasi, Barcelona",
             text: "Mi gato se cayó del balcón hace dos años y por suerte sobrevivió. Desde entonces busqué la mejor protección posible. Preventiva Este instaló una red que cubre cada rincón sin dejar ni un hueco. El material es de una calidad increíble y el presupuesto fue justo. No dudaría en volver a contratar su servicio.",
         },
-    ];
+    ],
+};
 
+export function Testimonials({ dict = defaultDict }: TestimonialsProps) {
+    const testimonials = dict.items;
     const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonials[0] | null>(null);
 
     return (
         <section className="py-20 bg-white">
             <div className="container mx-auto px-4 md:px-8">
                 <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-16">
-                    Lo que dicen nuestros clientes
+                    {dict.title}
                 </h2>
 
                 <div className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory">
@@ -60,7 +70,7 @@ export function Testimonials() {
                                         onClick={() => setSelectedTestimonial(t)}
                                         className="text-yellow-600 text-sm font-semibold mt-2 hover:underline focus:outline-none"
                                     >
-                                        Ver más
+                                        {dict.verMas}
                                     </button>
                                 )}
                             </div>

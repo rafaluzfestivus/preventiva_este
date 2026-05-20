@@ -3,14 +3,82 @@
 import { Phone, Mail, MapPin, Send, Loader2, CheckCircle, XCircle } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import type { SiteDict } from "@/dictionaries/types";
 
-export function ContactSection() {
+const ADS_ID = 'AW-18111431326';
+// Replace CONVERSION_LABEL with the label from Google Ads > Conversions dashboard
+const ADS_CONVERSION = `${ADS_ID}/CONVERSION_LABEL`;
+
+interface ContactSectionProps {
+    dict?: SiteDict["contact"];
+}
+
+const defaultDict: SiteDict["contact"] = {
+    tag: "Contacta con Nosotros",
+    title: "¿Listo para proteger tu hogar?",
+    description:
+        "Solicita tu presupuesto gratuito y sin compromiso hoy mismo. Nuestro equipo te asesorará sobre la mejor solución para tu espacio.",
+    callTitle: "Llámanos",
+    callLabel: "Barcelona",
+    writeTitle: "Escríbenos",
+    serviceAreaTitle: "Área de Servicio",
+    serviceAreaText: "Barcelona y Área Metropolitana",
+    serviceAreaSub: "Servicio en toda Cataluña.",
+    formTitle: "Pedir Presupuesto",
+    formName: "Nombre",
+    formPhone: "Teléfono",
+    formEmail: "Email",
+    formPostal: "Código Postal",
+    formService: "Tipo de Servicio",
+    formMessage: "Mensaje",
+    formNamePlaceholder: "Tu nombre",
+    formMessagePlaceholder: "Cuéntanos más sobre lo que necesitas...",
+    formSubmit: "Solicitar Presupuesto GRATIS",
+    formSending: "Enviando...",
+    formSuccessTitle: "¡Mensaje Enviado!",
+    formSuccessDesc: "Gracias por contactarnos. Te responderemos lo antes posible.",
+    formSendAnother: "Enviar otro mensaje",
+    formError: "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+    formPrivacy: "Al enviar aceptas nuestra política de privacidad.",
+    defaultService: "Protección para Balcón",
+    serviceOptions: [
+        "Protección para Balcón",
+        "Protección para Ventanas",
+        "Protección para Gatos",
+        "Otro",
+    ],
+    subject: "Nuevo mensaje desde Preventiva Este",
+};
+
+function fireConversionTracking() {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'conversion', {
+            'send_to': ADS_CONVERSION,
+            'value': 1.0,
+            'currency': 'EUR',
+        });
+    }
+    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
+        (window as any).dataLayer.push({ 'event': 'generate_lead', 'form_name': 'contact_form' });
+    }
+}
+
+function trackPhoneClick(number: string) {
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+        (window as any).gtag('event', 'phone_click', { 'event_category': 'contact', 'phone_number': number });
+    }
+    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
+        (window as any).dataLayer.push({ 'event': 'phone_click', 'phone_number': number });
+    }
+}
+
+export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
     const [formData, setFormData] = useState({
         nombre: "",
         telefono: "",
         email: "",
         codigoPostal: "",
-        servicio: "Protección para Balcón",
+        servicio: dict.defaultService,
         mensaje: ""
     });
 
@@ -36,7 +104,7 @@ export function ContactSection() {
             "Código Postal": formData.codigoPostal,
             Servicio: formData.servicio,
             Mensaje: formData.mensaje,
-            subject: "Nuevo mensaje desde Preventiva Este"
+            subject: dict.subject,
         };
 
         const sheetsData = new URLSearchParams();
@@ -66,6 +134,44 @@ export function ContactSection() {
 
             const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
 
+            const [response] = await Promise.allSettled([
+            const chatwootPromise = (async () => {
+                const BASE = "https://chat.preventivacentro.es";
+                const ACCOUNT = 2;
+                const INBOX = 7;
+                const headers = {
+                    "Content-Type": "application/json",
+                    "api_access_token": "JBhhZJ61cgtyjf4RTR9SUoLe",
+                };
+
+                const contactRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/contacts`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({
+                        name: formData.nombre,
+                        email: formData.email,
+                        phone_number: formData.telefono,
+                    }),
+                });
+                const { id: contactId } = await contactRes.json();
+
+                const convRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({ inbox_id: INBOX, contact_id: contactId }),
+                });
+                const { id: convId } = await convRes.json();
+
+                await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations/${convId}/messages`, {
+                    method: "POST",
+                    headers,
+                    body: JSON.stringify({
+                        content: `📍 CP: ${formData.codigoPostal} | 🔧 ${formData.servicio}\n\n${formData.mensaje}`,
+                        message_type: "incoming",
+                    }),
+                });
+            })();
+
             await Promise.allSettled([
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
@@ -85,10 +191,17 @@ export function ContactSection() {
                         body: sheetsData.toString(),
                     })
                     : Promise.resolve(),
+            ]) as [PromiseSettledResult<Response>, ...unknown[]];
+                chatwootPromise,
             ]);
 
-            setStatus("success");
-            setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: "Protección para Balcón", mensaje: "" });
+            if (response.status === 'fulfilled' && response.value.ok) {
+                fireConversionTracking();
+                setStatus("success");
+                setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });
+            } else {
+                setStatus("error");
+            }
         } catch (error) {
             console.error(error);
             setStatus("error");
@@ -101,13 +214,13 @@ export function ContactSection() {
                 <div className="flex flex-col lg:flex-row gap-16">
                     <div className="lg:w-1/2">
                         <span className="text-yellow-400 font-bold tracking-wider text-sm uppercase mb-2 block">
-                            Contacta con Nosotros
+                            {dict.tag}
                         </span>
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                            ¿Listo para proteger tu hogar?
+                            {dict.title}
                         </h2>
                         <p className="text-slate-300 mb-12 text-lg leading-relaxed">
-                            Solicita tu presupuesto gratuito y sin compromiso hoy mismo. Nuestro equipo te asesorará sobre la mejor solución para tu espacio.
+                            {dict.description}
                         </p>
 
                         <div className="space-y-8">
@@ -130,6 +243,11 @@ export function ContactSection() {
                                             </div>
                                         </div>
                                     </div>
+                                    <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
+                                    <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
+                                    <a href="tel:+34637003793" onClick={() => trackPhoneClick('+34637003793')} className="text-slate-300 hover:text-white transition-colors text-lg">
+                                        Móvil: 637 003 793
+                                    </a>
                                 </div>
                             </div>
 
@@ -138,7 +256,7 @@ export function ContactSection() {
                                     <Mail className="w-6 h-6 text-yellow-400" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl mb-1">Escríbenos</h3>
+                                    <h3 className="font-bold text-xl mb-1">{dict.writeTitle}</h3>
                                     <a href="mailto:contacto@preventivaeste.com" className="text-slate-300 hover:text-white transition-colors text-lg">
                                         contacto@preventivaeste.com
                                     </a>
@@ -150,10 +268,10 @@ export function ContactSection() {
                                     <MapPin className="w-6 h-6 text-yellow-400" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl mb-1">Área de Servicio</h3>
+                                    <h3 className="font-bold text-xl mb-1">{dict.serviceAreaTitle}</h3>
                                     <p className="text-slate-300 text-lg">
-                                        Barcelona y Área Metropolitana<br />
-                                        <span className="text-sm text-slate-500">Servicio en toda Cataluña.</span>
+                                        {dict.serviceAreaText}<br />
+                                        <span className="text-sm text-slate-500">{dict.serviceAreaSub}</span>
                                     </p>
                                 </div>
                             </div>
@@ -162,64 +280,68 @@ export function ContactSection() {
 
                     <div className="lg:w-1/2">
                         <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-2xl text-slate-900">
-                            <h3 className="text-2xl font-bold mb-6">Pedir Presupuesto</h3>
+                            <h3 className="text-2xl font-bold mb-6">{dict.formTitle}</h3>
 
                             {status === "success" ? (
                                 <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
                                     <div className="flex justify-center mb-3">
                                         <CheckCircle className="w-12 h-12 text-green-500" />
                                     </div>
-                                    <h4 className="text-xl font-bold text-green-800 mb-2">¡Mensaje Enviado!</h4>
-                                    <p className="text-green-700">Gracias por contactarnos. Te responderemos lo antes posible.</p>
+                                    <h4 className="text-xl font-bold text-green-800 mb-2">{dict.formSuccessTitle}</h4>
+                                    <p className="text-green-700">{dict.formSuccessDesc}</p>
                                     <button type="button" onClick={() => setStatus("idle")} className="mt-4 text-green-600 hover:text-green-800 font-medium text-sm underline">
-                                        Enviar otro mensaje
+                                        {dict.formSendAnother}
                                     </button>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
-                                            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all" placeholder="Tu nombre" />
+                                            <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formName}</label>
+                                            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all" placeholder={dict.formNamePlaceholder} />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">Teléfono</label>
+                                            <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formPhone}</label>
                                             <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all" placeholder="600 000 000" />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formEmail}</label>
                                         <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all" placeholder="tu@email.com" />
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">Código Postal</label>
+                                            <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formPostal}</label>
                                             <input type="text" name="codigoPostal" value={formData.codigoPostal} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all" placeholder="08000" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1">Tipo de Servicio</label>
+                                            <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formService}</label>
                                             <select name="servicio" value={formData.servicio} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all bg-white">
-                                                <option>Protección para Balcón</option>
-                                                <option>Protección para Ventanas</option>
-                                                <option>Protección para Gatos</option>
-                                                <option>Otro</option>
+                                                {dict.serviceOptions.map((opt) => (
+                                                    <option key={opt}>{opt}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1">Mensaje</label>
-                                        <textarea rows={4} name="mensaje" value={formData.mensaje} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all resize-none" placeholder="Cuéntanos más sobre lo que necesitas..."></textarea>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1">{dict.formMessage}</label>
+                                        <textarea rows={4} name="mensaje" value={formData.mensaje} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none transition-all resize-none" placeholder={dict.formMessagePlaceholder}></textarea>
                                     </div>
 
                                     {status === "error" && (
                                         <div className="bg-red-50 text-red-600 p-3 rounded-lg flex items-center gap-2 text-sm">
                                             <XCircle className="w-4 h-4 flex-shrink-0" />
-                                            Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.
+                                            {dict.formError}
                                         </div>
                                     )}
+
+                                    <div className="bg-yellow-50 border border-yellow-100 rounded-lg px-4 py-3 flex items-center gap-3 text-sm text-slate-600">
+                                        <span className="text-yellow-600 font-bold text-base">✓</span>
+                                        <span>Presupuesto gratuito · Sin compromiso · Respuesta en menos de 24h</span>
+                                    </div>
 
                                     <button
                                         type="submit"
@@ -227,14 +349,18 @@ export function ContactSection() {
                                         className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
                                     >
                                         {status === "loading" ? (
-                                            <><Loader2 className="w-5 h-5 animate-spin" /> Enviando...</>
+                                            <><Loader2 className="w-5 h-5 animate-spin" /> {dict.formSending}</>
                                         ) : (
-                                            <><Send className="w-5 h-5" /> Enviar Solicitud</>
+                                            <><Send className="w-5 h-5" /> {dict.formSubmit}</>
                                         )}
                                     </button>
 
                                     <p className="text-center text-xs text-slate-500 mt-4">
-                                        Al enviar aceptas nuestra política de privacidad.
+                                        Al enviar aceptas nuestra{" "}
+                                        <a href="/politica-privacidad" className="underline hover:text-slate-700">
+                                            política de privacidad
+                                        </a>
+                                        .
                                     </p>
                                 </div>
                             )}

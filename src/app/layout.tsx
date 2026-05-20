@@ -44,6 +44,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://preventivaeste.com",
+    languages: {
+      "es": "https://preventivaeste.com",
+      "ca": "https://preventivaeste.com/ca",
+    },
   },
   robots: {
     index: true,
@@ -68,7 +72,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
+  const businessJsonLd = {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     "name": "Preventiva Este",
@@ -84,19 +88,110 @@ export default function RootLayout({
     "telephone": "+34637003793",
     "email": "contacto@preventivaeste.com",
     "priceRange": "$$",
-    "areaServed": ["Barcelona", "L'Hospitalet de Llobregat", "Badalona", "Sabadell", "Terrassa", "Sant Cugat del Vallès", "Área Metropolitana de Barcelona"],
+    "areaServed": [
+      "Barcelona",
+      "L'Hospitalet de Llobregat",
+      "Badalona",
+      "Sabadell",
+      "Terrassa",
+      "Sant Cugat del Vallès",
+      "Cornellà de Llobregat",
+      "El Prat de Llobregat",
+      "Mataró",
+      "Área Metropolitana de Barcelona"
+    ],
     "sameAs": ["https://www.instagram.com/preventivaeste/"],
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "opens": "09:00",
       "closes": "20:00"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "5",
+      "bestRating": "5",
+      "worstRating": "1"
     }
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuánto tiempo tarda la instalación de redes de protección en Barcelona?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La instalación suele completarse en pocas horas, dependiendo del tamaño y número de espacios. Trabajamos de forma limpia y sin obras."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué garantía tienen las redes de protección?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nuestras redes incluyen 3 años de garantía. Utilizamos materiales de alta resistencia certificados con una carga de 150 kg/m²."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Podéis instalar redes en cualquier tipo de balcón o terraza en Barcelona?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. Nos adaptamos a cualquier tipo de balcón, ventana o terraza, sea cual sea su forma o tamaño. Realizamos una medición personalizada antes de la instalación."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Las redes de protección son visibles desde el exterior?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Las redes son prácticamente transparentes e imperceptibles desde la calle, preservando la estética de tu fachada sin renunciar a la seguridad."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto cuesta instalar redes de protección en Barcelona?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El precio depende de las dimensiones del espacio y el tipo de instalación. Ofrecemos presupuesto gratuito y sin compromiso. Contáctanos para recibir tu valoración personalizada."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Instaláis redes en catalán y en otras ciudades del área metropolitana?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, ofrecemos servicio en español y catalán en toda el área metropolitana de Barcelona, incluyendo L'Hospitalet, Badalona, Sabadell, Terrassa y Sant Cugat del Vallès."
+        }
+      }
+    ]
   };
 
   return (
     <html lang="es" className="scroll-smooth">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+        {/* Google Ads tag — must initialize dataLayer before GTM */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18111431326"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18111431326');
+            `,
+          }}
+        />
+
+        {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -106,6 +201,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-N5BW7JW9');`,
           }}
         />
+
+        {/* hreflang global */}
+        <link rel="alternate" hrefLang="es" href="https://preventivaeste.com" />
+        <link rel="alternate" hrefLang="ca" href="https://preventivaeste.com/ca" />
+        <link rel="alternate" hrefLang="x-default" href="https://preventivaeste.com" />
       </head>
       <body className={`${inter.className} antialiased bg-gray-50 flex flex-col min-h-screen`}>
         <noscript>
@@ -118,7 +218,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <Navbar />
         <main className="flex-grow pt-20">
