@@ -6,7 +6,6 @@ import { supabase } from "@/lib/supabase";
 import type { SiteDict } from "@/dictionaries/types";
 
 const ADS_ID = 'AW-18111431326';
-// Replace CONVERSION_LABEL with the label from Google Ads > Conversions dashboard
 const ADS_CONVERSION = `${ADS_ID}/CONVERSION_LABEL`;
 
 interface ContactSectionProps {
@@ -134,45 +133,20 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
 
             const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
 
+            const chatwootPromise = fetch("/api/chatwoot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: formData.nombre,
+                    telefono: formData.telefono,
+                    email: formData.email,
+                    codigoPostal: formData.codigoPostal,
+                    servicio: formData.servicio,
+                    mensaje: formData.mensaje,
+                }),
+            });
+
             const [response] = await Promise.allSettled([
-            const chatwootPromise = (async () => {
-                const BASE = "https://chat.preventivacentro.es";
-                const ACCOUNT = 2;
-                const INBOX = 7;
-                const headers = {
-                    "Content-Type": "application/json",
-                    "api_access_token": "JBhhZJ61cgtyjf4RTR9SUoLe",
-                };
-
-                const contactRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/contacts`, {
-                    method: "POST",
-                    headers,
-                    body: JSON.stringify({
-                        name: formData.nombre,
-                        email: formData.email,
-                        phone_number: formData.telefono,
-                    }),
-                });
-                const { id: contactId } = await contactRes.json();
-
-                const convRes = await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations`, {
-                    method: "POST",
-                    headers,
-                    body: JSON.stringify({ inbox_id: INBOX, contact_id: contactId }),
-                });
-                const { id: convId } = await convRes.json();
-
-                await fetch(`${BASE}/api/v1/accounts/${ACCOUNT}/conversations/${convId}/messages`, {
-                    method: "POST",
-                    headers,
-                    body: JSON.stringify({
-                        content: `📍 CP: ${formData.codigoPostal} | 🔧 ${formData.servicio}\n\n${formData.mensaje}`,
-                        message_type: "incoming",
-                    }),
-                });
-            })();
-
-            await Promise.allSettled([
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -191,9 +165,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                         body: sheetsData.toString(),
                     })
                     : Promise.resolve(),
-            ]) as [PromiseSettledResult<Response>, ...unknown[]];
                 chatwootPromise,
-            ]);
+            ]) as [PromiseSettledResult<Response>, ...unknown[]];
 
             if (response.status === 'fulfilled' && response.value.ok) {
                 fireConversionTracking();
@@ -229,25 +202,16 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                     <Phone className="w-6 h-6 text-yellow-400" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl mb-1">Llámanos</h3>
-                                    <div className="flex flex-col gap-1">
-                                        <div className="flex flex-col">
-                                            <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider">Barcelona</span>
-                                            <div className="flex flex-col gap-1">
-                                                <a href="tel:+34637003793" className="text-slate-300 hover:text-white transition-colors text-lg">
-                                                    Móvil: 637 003 793
-                                                </a>
-                                                <a href="tel:+34912096117" className="text-slate-300 hover:text-white transition-colors text-lg">
-                                                    Fijo: 91 209 61 17
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
                                     <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
-                                    <a href="tel:+34637003793" onClick={() => trackPhoneClick('+34637003793')} className="text-slate-300 hover:text-white transition-colors text-lg">
-                                        Móvil: 637 003 793
-                                    </a>
+                                    <div className="flex flex-col gap-1 mt-1">
+                                        <a href="tel:+34637003793" onClick={() => trackPhoneClick('+34637003793')} className="text-slate-300 hover:text-white transition-colors text-lg">
+                                            Móvil: 637 003 793
+                                        </a>
+                                        <a href="tel:+34912096117" onClick={() => trackPhoneClick('+34912096117')} className="text-slate-300 hover:text-white transition-colors text-lg">
+                                            Fijo: 91 209 61 17
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
