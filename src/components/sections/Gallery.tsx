@@ -23,12 +23,12 @@ const defaultDict: SiteDict["gallery"] = {
 };
 
 const imageSrcs = [
-    "/gallery-1.jpg",
-    "/gallery-2.jpg",
-    "/gallery-3.jpg",
-    "/gallery-4.jpg",
-    "/gallery-5.jpg",
-    "/gallery-6.jpg",
+    "/img-1.jpg",
+    "/img-2.jpg",
+    "/img-3.jpg",
+    "/img-4.jpg",
+    "/img-5.jpg",
+    "/img-6.jpg",
 ];
 
 export function Gallery({ dict = defaultDict }: GalleryProps) {
