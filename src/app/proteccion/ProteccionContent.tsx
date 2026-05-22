@@ -59,7 +59,7 @@ export default function ProteccionContent() {
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-6">
                             <Link
-                                href="https://wa.me/34637003793"
+                                href="https://wa.me/34672078885"
                                 target="_blank"
                                 className="bg-yellow-500 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-yellow-600 transition-all shadow-xl"
                             >
@@ -128,7 +128,7 @@ export default function ProteccionContent() {
                                 </p>
                             </div>
                             <Link
-                                href="https://wa.me/34637003793"
+                                href="https://wa.me/34672078885"
                                 target="_blank"
                                 className="bg-[#4d2a36] text-white px-8 py-4 rounded-full font-bold inline-flex items-center gap-3 hover:bg-slate-800 transition-all"
                             >
@@ -186,7 +186,7 @@ export default function ProteccionContent() {
                                 </li>
                             </ul>
                             <Link
-                                href="https://wa.me/34637003793"
+                                href="https://wa.me/34672078885"
                                 target="_blank"
                                 className="bg-yellow-500 text-white px-8 py-4 rounded-full font-bold inline-flex items-center gap-3 hover:bg-yellow-600 transition-all shadow-lg"
                             >
@@ -257,7 +257,7 @@ export default function ProteccionContent() {
                                     Acaba hoy con el problema. Presupuesto sin compromiso para comunidades y particulares en toda Barcelona.
                                 </p>
                                 <Link
-                                    href="https://wa.me/34637003793"
+                                    href="https://wa.me/34672078885"
                                     target="_blank"
                                     className="bg-yellow-500 text-white px-8 py-4 rounded-full font-bold inline-block hover:bg-yellow-600 transition-all relative z-10"
                                 >
@@ -286,12 +286,12 @@ export default function ProteccionContent() {
                     </p>
                     <div className="flex flex-col md:flex-row justify-center gap-6">
                         <Link
-                            href="https://wa.me/34637003793"
+                            href="https://wa.me/34672078885"
                             target="_blank"
                             className="bg-[#4d2a36] text-white px-10 py-5 rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl"
                         >
                             <Phone className="w-6 h-6" />
-                            637 003 793
+                            672 078 885
                         </Link>
                         <Link
                             href="/#contacto"
