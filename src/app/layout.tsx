@@ -85,7 +85,7 @@ export default function RootLayout({
       "addressCountry": "ES"
     },
     "url": "https://preventivaeste.com",
-    "telephone": "+34637003793",
+    "telephone": "+34672078885",
     "email": "contacto@preventivaeste.com",
     "priceRange": "$$",
     "areaServed": ["Barcelona", "L'Hospitalet de Llobregat", "Badalona", "Sabadell", "Terrassa", "Sant Cugat del Vallès", "Área Metropolitana de Barcelona"],

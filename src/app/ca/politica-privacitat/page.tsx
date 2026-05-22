@@ -27,7 +27,7 @@ export default function CaPrivacitatPage() {
         <p dangerouslySetInnerHTML={{ __html: d.s1Content.replace(
           "contacto@preventivaeste.com",
           '<strong>Correu electrònic de contacte:</strong> contacto@preventivaeste.com'
-        ).replace("637 003 793", '<strong>Telèfon:</strong> 637 003 793') }} />
+        ).replace("672 078 885", '<strong>Telèfon:</strong> 672 078 885') }} />
 
         <h2 className="text-2xl font-bold mt-8 mb-4 text-slate-900">{d.s2Title}</h2>
         <p>{d.s2Intro}</p>

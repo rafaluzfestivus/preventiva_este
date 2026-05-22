@@ -60,7 +60,7 @@ export default function CaProteccioContent() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-6">
               <Link
-                href="https://wa.me/34637003793"
+                href="https://wa.me/34672078885"
                 target="_blank"
                 className="bg-yellow-500 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-yellow-600 transition-all shadow-xl"
               >
@@ -127,7 +127,7 @@ export default function CaProteccioContent() {
                 </p>
               </div>
               <Link
-                href="https://wa.me/34637003793"
+                href="https://wa.me/34672078885"
                 target="_blank"
                 className="bg-[#4d2a36] text-white px-8 py-4 rounded-full font-bold inline-flex items-center gap-3 hover:bg-slate-800 transition-all"
               >
@@ -183,7 +183,7 @@ export default function CaProteccioContent() {
                 </li>
               </ul>
               <Link
-                href="https://wa.me/34637003793"
+                href="https://wa.me/34672078885"
                 target="_blank"
                 className="bg-yellow-500 text-white px-8 py-4 rounded-full font-bold inline-flex items-center gap-3 hover:bg-yellow-600 transition-all shadow-lg"
               >
@@ -251,7 +251,7 @@ export default function CaProteccioContent() {
                 <p className="text-xl font-bold mb-4 relative z-10 italic">{d.avesCtaTitle}</p>
                 <p className="text-slate-300 mb-6 relative z-10">{d.avesCtaDesc}</p>
                 <Link
-                  href="https://wa.me/34637003793"
+                  href="https://wa.me/34672078885"
                   target="_blank"
                   className="bg-yellow-500 text-white px-8 py-4 rounded-full font-bold inline-block hover:bg-yellow-600 transition-all relative z-10"
                 >
@@ -280,12 +280,12 @@ export default function CaProteccioContent() {
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-6">
             <Link
-              href="https://wa.me/34637003793"
+              href="https://wa.me/34672078885"
               target="_blank"
               className="bg-[#4d2a36] text-white px-10 py-5 rounded-full font-bold text-lg flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl"
             >
               <Phone className="w-6 h-6" />
-              637 003 793
+              672 078 885
             </Link>
             <Link
               href="/ca#contacto"

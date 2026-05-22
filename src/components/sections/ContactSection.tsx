@@ -160,8 +160,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                 <div>
                                     <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
                                     <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
-                                    <a href="tel:+34637003793" className="text-slate-300 hover:text-white transition-colors text-lg">
-                                        Móvil: 637 003 793
+                                    <a href="tel:+34672078885" className="text-slate-300 hover:text-white transition-colors text-lg">
+                                        Móvil: 672 078 885
                                     </a>
                                 </div>
                             </div>
