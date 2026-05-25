@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE = "https://chat.preventivacentro.es";
-const ACCOUNT = 2;
-const INBOX = 7;
-const TOKEN = "JBhhZJ61cgtyjf4RTR9SUoLe";
+const BASE = process.env.CHATWOOT_BASE_URL ?? "https://chat.preventivacentro.es";
+const ACCOUNT = Number(process.env.CHATWOOT_ACCOUNT_ID ?? "2");
+const INBOX = Number(process.env.CHATWOOT_INBOX_ID ?? "7");
+const TOKEN = process.env.CHATWOOT_TOKEN ?? "";
 
 const headers = {
     "Content-Type": "application/json",
