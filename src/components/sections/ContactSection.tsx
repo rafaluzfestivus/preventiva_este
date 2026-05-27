@@ -126,7 +126,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                     service_requested: formData.servicio,
                     message: formData.mensaje,
                     source: 'site',
-                    status: 'lead'
+                    status: 'lead',
+                    company_id: 2,
                 }, { onConflict: 'whatsapp' });
 
             if (supabaseError) console.error("Error saving to Supabase:", supabaseError);
