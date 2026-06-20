@@ -2,7 +2,6 @@
 
 import { Phone, Mail, MapPin, Send, Loader2, CheckCircle, XCircle } from "lucide-react";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import type { SiteDict } from "@/dictionaries/types";
 
 const ADS_ID = 'AW-18111431326';
@@ -116,23 +115,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
         sheetsData.append("Mensaje", `[${formData.servicio}] ${formData.mensaje}`);
 
         try {
-            const { error: supabaseError } = await supabase
-                .from('clients')
-                .upsert({
-                    name: formData.nombre,
-                    whatsapp: formData.telefono.replace(/\D/g, ''),
-                    email: formData.email,
-                    postal_code: formData.codigoPostal,
-                    service_requested: formData.servicio,
-                    message: formData.mensaje,
-                    source: 'site',
-                    status: 'lead',
-                    company_id: 2,
-                }, { onConflict: 'whatsapp' });
-
-            if (supabaseError) console.error("Error saving to Supabase:", supabaseError);
-
-            const sheetsUrl = "YOUR_GOOGLE_SHEETS_SCRIPT_URL";
+            const sheetsUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL ?? "";
 
             const chatwootPromise = fetch("/api/chatwoot", {
                 method: "POST",
@@ -147,7 +130,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                 }),
             });
 
-            const [response] = await Promise.allSettled([
+            const [chatwootResult] = await Promise.allSettled([
+                chatwootPromise,
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -158,7 +142,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                     headers: { "Content-Type": "application/json", "Accept": "application/json" },
                     body: JSON.stringify(data),
                 }),
-                sheetsUrl && !sheetsUrl.startsWith("YOUR_")
+                sheetsUrl
                     ? fetch(sheetsUrl, {
                         method: "POST",
                         mode: "no-cors",
@@ -166,10 +150,9 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                         body: sheetsData.toString(),
                     })
                     : Promise.resolve(),
-                chatwootPromise,
             ]) as [PromiseSettledResult<Response>, ...unknown[]];
 
-            if (response.status === 'fulfilled' && response.value.ok) {
+            if (chatwootResult.status === 'fulfilled' && chatwootResult.value.ok) {
                 fireConversionTracking();
                 setStatus("success");
                 setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });

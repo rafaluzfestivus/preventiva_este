@@ -55,9 +55,9 @@ export async function POST(req: NextRequest) {
         const contactBody = await contactRes.json();
         console.log("Chatwoot contact response:", contactRes.status, JSON.stringify(contactBody));
 
-        // If contact already exists, Chatwoot returns 422 with existing contact in the error
-        let contactId: number | undefined = contactBody.id;
-        if (!contactId && contactBody.errors?.attributes) {
+        // If contact already exists, Chatwoot returns 422 with attributes at the root
+        let contactId: number | undefined = contactBody.payload?.contact?.id;
+        if (!contactId && contactBody.attributes) {
             // Try to find existing contact by phone
             const searchRes = await fetch(
                 `${BASE}/api/v1/accounts/${ACCOUNT}/contacts/search?q=${encodeURIComponent(phone)}&include_contacts=true`,
