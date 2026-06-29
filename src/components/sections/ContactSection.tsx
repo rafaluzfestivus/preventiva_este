@@ -189,8 +189,8 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                     <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
                                     <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
                                     <div className="flex flex-col gap-1">
-                                        <a href="tel:+34672078885" onClick={() => trackPhoneClick('+34672078885')} className="text-slate-300 hover:text-white transition-colors text-lg">
-                                            Móvil: 672 078 885
+                                        <a href="tel:+34681625566" onClick={() => trackPhoneClick('+34681625566')} className="text-slate-300 hover:text-white transition-colors text-lg">
+                                            Móvil: 681 625 566
                                         </a>
                                         <a href="tel:+34912096117" onClick={() => trackPhoneClick('+34912096117')} className="text-slate-300 hover:text-white transition-colors text-lg">
                                             Fijo: 91 209 61 17

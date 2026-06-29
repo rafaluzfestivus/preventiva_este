@@ -24,7 +24,7 @@ export function WhatsAppButton() {
         return () => clearTimeout(timer);
     }, []);
 
-    const phoneNumber = "34672078885";
+    const phoneNumber = "34681625566";
     const message = isCA
         ? "Hola, voldria més informació sobre les xarxes de protecció."
         : "Hola, quisiera más información sobre las redes de protección.";

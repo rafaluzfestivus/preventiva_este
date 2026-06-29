@@ -100,7 +100,7 @@ export function Footer() {
                                 <Phone className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
                                 <div>
                                     <span className="text-xs text-slate-400 font-bold uppercase block">{dict.mobileLabel}</span>
-                                    <a href="tel:+34672078885" className="hover:text-white transition-colors">Móvil: 672 078 885</a>
+                                    <a href="tel:+34681625566" className="hover:text-white transition-colors">Móvil: 681 625 566</a>
                                 </div>
                             </li>
                             <li className="flex items-center gap-3">

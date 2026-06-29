@@ -85,7 +85,7 @@ export default function RootLayout({
       "addressCountry": "ES"
     },
     "url": "https://preventivaeste.com",
-    "telephone": "+34672078885",
+    "telephone": "+34681625566",
     "email": "contacto@preventivaeste.com",
     "priceRange": "$$",
     "areaServed": [

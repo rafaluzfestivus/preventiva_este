@@ -372,7 +372,7 @@ export const es: SiteDict = {
       'En Preventiva Este, nos comprometemos a proteger y respetar su privacidad. Esta Política de Privacidad explica cómo recopilamos, utilizamos y protegemos sus datos personales de acuerdo con el Reglamento General de Protección de Datos (RGPD) de la Unión Europea y la legislación española vigente.',
     s1Title: '1. Responsable del Tratamiento',
     s1Content:
-      'Los datos personales recabados a través de este sitio web son responsabilidad de Preventiva Este. Correo electrónico de contacto: contacto@preventivaeste.com. Teléfono: 672 078 885. Ubicación: Barcelona, Cataluña (Prestamos servicio en toda el Área Metropolitana de Barcelona y Cataluña).',
+      'Los datos personales recabados a través de este sitio web son responsabilidad de Preventiva Este. Correo electrónico de contacto: contacto@preventivaeste.com. Teléfono: 681 625 566. Ubicación: Barcelona, Cataluña (Prestamos servicio en toda el Área Metropolitana de Barcelona y Cataluña).',
     s2Title: '2. Finalidad del Tratamiento',
     s2Intro:
       'Recopilamos y tratamos sus datos personales con las siguientes finalidades:',

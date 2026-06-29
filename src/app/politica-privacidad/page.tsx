@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
                 <p>
                     Los datos personales recabados a través de este sitio web son responsabilidad de Preventiva Este.<br />
                     <strong>Correo electrónico de contacto:</strong> contacto@preventivaeste.com<br />
-                    <strong>Teléfono:</strong> 672 078 885<br />
+                    <strong>Teléfono:</strong> 681 625 566<br />
                     Ubicación: Barcelona, Cataluña (Prestamos servicio en toda el Área Metropolitana de Barcelona y Cataluña).
                 </p>
 
