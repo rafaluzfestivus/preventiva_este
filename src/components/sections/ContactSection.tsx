@@ -192,9 +192,6 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                         <a href="tel:+34681625566" onClick={() => trackPhoneClick('+34681625566')} className="text-slate-300 hover:text-white transition-colors text-lg">
                                             Móvil: 681 625 566
                                         </a>
-                                        <a href="tel:+34912096117" onClick={() => trackPhoneClick('+34912096117')} className="text-slate-300 hover:text-white transition-colors text-lg">
-                                            Fijo: 91 209 61 17
-                                        </a>
                                     </div>
                                 </div>
                             </div>
