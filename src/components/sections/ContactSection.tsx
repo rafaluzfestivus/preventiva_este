@@ -89,20 +89,6 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Abre el WhatsApp del negocio con el mensaje ya redactado, en el mismo
-        // gesto de clic del usuario (si se espera a los fetch, el navegador
-        // bloquea el popup por no considerarlo ya una acción del usuario).
-        const waText = [
-            `Nueva solicitud de presupuesto - ${formData.servicio}`,
-            `👤 ${formData.nombre}`,
-            `📞 ${formData.telefono}`,
-            formData.email ? `✉️ ${formData.email}` : null,
-            `📍 CP: ${formData.codigoPostal}`,
-            formData.mensaje ? `💬 ${formData.mensaje}` : null,
-        ].filter(Boolean).join("\n");
-        window.open(`https://wa.me/34681625566?text=${encodeURIComponent(waText)}`, "_blank", "noopener,noreferrer");
-
         setStatus("loading");
 
         const now = new Date();
