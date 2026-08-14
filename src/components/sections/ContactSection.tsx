@@ -89,6 +89,20 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Abre el WhatsApp del negocio con el mensaje ya redactado, en el mismo
+        // gesto de clic del usuario (si se espera a los fetch, el navegador
+        // bloquea el popup por no considerarlo ya una acción del usuario).
+        const waText = [
+            `Nueva solicitud de presupuesto - ${formData.servicio}`,
+            `👤 ${formData.nombre}`,
+            `📞 ${formData.telefono}`,
+            formData.email ? `✉️ ${formData.email}` : null,
+            `📍 CP: ${formData.codigoPostal}`,
+            formData.mensaje ? `💬 ${formData.mensaje}` : null,
+        ].filter(Boolean).join("\n");
+        window.open(`https://wa.me/34681625566?text=${encodeURIComponent(waText)}`, "_blank", "noopener,noreferrer");
+
         setStatus("loading");
 
         const now = new Date();
@@ -117,25 +131,25 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
         try {
             const sheetsUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL ?? "";
 
-            const chatwootPromise = fetch("/api/chatwoot", {
+            const emailPromise = fetch("https://api.web3forms.com/submit", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    nombre: formData.nombre,
-                    telefono: formData.telefono,
-                    email: formData.email,
-                    codigoPostal: formData.codigoPostal,
-                    servicio: formData.servicio,
-                    mensaje: formData.mensaje,
-                }),
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify(data),
             });
 
-            const [chatwootResult] = await Promise.allSettled([
-                chatwootPromise,
-                fetch("https://api.web3forms.com/submit", {
+            const [emailResult] = await Promise.allSettled([
+                emailPromise,
+                fetch("/api/lead", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-                    body: JSON.stringify(data),
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nombre: formData.nombre,
+                        telefono: formData.telefono,
+                        email: formData.email,
+                        codigoPostal: formData.codigoPostal,
+                        servicio: formData.servicio,
+                        mensaje: formData.mensaje,
+                    }),
                 }),
                 fetch("https://fluxo.festivusia.com/webhook/emailpreventivaeste", {
                     method: "POST",
@@ -152,7 +166,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                     : Promise.resolve(),
             ]) as [PromiseSettledResult<Response>, ...unknown[]];
 
-            if (chatwootResult.status === 'fulfilled' && chatwootResult.value.ok) {
+            if (emailResult.status === 'fulfilled' && emailResult.value.ok) {
                 fireConversionTracking();
                 setStatus("success");
                 setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });
