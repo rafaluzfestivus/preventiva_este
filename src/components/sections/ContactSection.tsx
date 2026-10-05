@@ -4,8 +4,7 @@ import { Phone, Mail, MapPin, Send, Loader2, CheckCircle, XCircle } from "lucide
 import { useState } from "react";
 import type { SiteDict } from "@/dictionaries/types";
 
-const ADS_ID = 'AW-18111431326';
-const ADS_CONVERSION = `${ADS_ID}/CONVERSION_LABEL`;
+import { trackFormSubmit } from "@/lib/tracking";
 
 interface ContactSectionProps {
     dict?: SiteDict["contact"];
@@ -47,28 +46,6 @@ const defaultDict: SiteDict["contact"] = {
     ],
     subject: "Nuevo mensaje desde Preventiva Este",
 };
-
-function fireConversionTracking() {
-    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-        (window as any).gtag('event', 'conversion', {
-            'send_to': ADS_CONVERSION,
-            'value': 1.0,
-            'currency': 'EUR',
-        });
-    }
-    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
-        (window as any).dataLayer.push({ 'event': 'generate_lead', 'form_name': 'contact_form' });
-    }
-}
-
-function trackPhoneClick(number: string) {
-    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-        (window as any).gtag('event', 'phone_click', { 'event_category': 'contact', 'phone_number': number });
-    }
-    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
-        (window as any).dataLayer.push({ 'event': 'phone_click', 'phone_number': number });
-    }
-}
 
 export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
     const [formData, setFormData] = useState({
@@ -153,7 +130,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
             ]) as [PromiseSettledResult<Response>, ...unknown[]];
 
             if (emailResult.status === 'fulfilled' && emailResult.value.ok) {
-                fireConversionTracking();
+                trackFormSubmit();
                 setStatus("success");
                 setFormData({ nombre: "", telefono: "", email: "", codigoPostal: "", servicio: dict.defaultService, mensaje: "" });
             } else {
@@ -189,7 +166,7 @@ export function ContactSection({ dict = defaultDict }: ContactSectionProps) {
                                     <h3 className="font-bold text-xl mb-1">{dict.callTitle}</h3>
                                     <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider block">{dict.callLabel}</span>
                                     <div className="flex flex-col gap-1">
-                                        <a href="tel:+34681625566" onClick={() => trackPhoneClick('+34681625566')} className="text-slate-300 hover:text-white transition-colors text-lg">
+                                        <a href="tel:+34681625566" className="text-slate-300 hover:text-white transition-colors text-lg">
                                             Móvil: 681 625 566
                                         </a>
                                     </div>

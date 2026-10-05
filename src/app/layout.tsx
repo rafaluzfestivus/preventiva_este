@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { CookieConsent } from "@/components/layout/CookieConsent";
+import { ClickTracking } from "@/components/layout/ClickTracking";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -187,6 +188,7 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'AW-18111431326');
+              gtag('config', 'AW-16676255191');
             `,
           }}
         />
@@ -229,6 +231,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           {children}
         </main>
         <WhatsAppButton />
+        <ClickTracking />
         <CookieConsent />
         <Footer />
       </body>

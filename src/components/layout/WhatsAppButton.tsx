@@ -5,15 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-function trackWhatsAppClick() {
-    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-        (window as any).gtag('event', 'whatsapp_click', { 'event_category': 'contact' });
-    }
-    if (typeof window !== 'undefined' && Array.isArray((window as any).dataLayer)) {
-        (window as any).dataLayer.push({ 'event': 'whatsapp_click' });
-    }
-}
-
 export function WhatsAppButton() {
     const [isVisible, setIsVisible] = useState(false);
     const pathname = usePathname();
@@ -38,7 +29,6 @@ export function WhatsAppButton() {
                         href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={trackWhatsAppClick}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
