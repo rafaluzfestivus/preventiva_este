@@ -29,7 +29,7 @@
 - [x] Copiar imagens do preventivasur: `gallery-1.jpg` até `gallery-6.jpg`, `hero-new.jpg`, `img-1.jpg` até `img-6.jpg`, vídeo `.mp4`
 - [ ] Configurar **Supabase** separado e criar `.env.local` com as credenciais (ver `.env.example`)
 - [ ] Criar conta em **web3forms.com** para `contacto@preventivaeste.com` e atualizar `access_key` em `ContactSection.tsx`
-- [ ] Criar **Google Tag Manager** e substituir `GTM-PLACEHOLDER` em `layout.tsx`
+- [x] Google Tag Manager instalado (`GTM-N5BW7JW9`) em `layout.tsx`
 - [ ] Configurar **Google Sheets** script e atualizar `YOUR_GOOGLE_SHEETS_SCRIPT_URL` em `ContactSection.tsx`
 
 ### Opcional:
@@ -41,4 +41,4 @@
 ## 4. Configuração Técnica
 - **Framework**: Next.js 16+ (App Router)
 - **Estilização**: Tailwind CSS v4
-- **Analytics**: GTM-PLACEHOLDER *(substituir pelo ID real)*
+- **Analytics**: GTM-N5BW7JW9 (a tag Google dentro do GTM configura AW-18111431326, AW-16676255191 e o GA4; conversões disparadas por `src/lib/tracking.ts`)

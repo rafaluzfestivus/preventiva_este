@@ -179,16 +179,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
 
-        {/* Google Ads tag — must initialize dataLayer before GTM */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18111431326"></script>
+        {/* gtag stub: GTM (below) loads gtag.js and configures every Google/Ads/GA4 ID.
+            Do not add gtag('config') or a gtag.js loader here, it would double-count hits. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-18111431326');
-              gtag('config', 'AW-16676255191');
             `,
           }}
         />
